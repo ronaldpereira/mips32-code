@@ -1,0 +1,66 @@
+/**
+ * Author: Ronald Davi Rodrigues Pereira
+ * 2015004437 - UFMG
+ * 26/08/2016 1:59:13 pm
+ */
+
+--- Crude Code ---
+
+*=$f600
+       LDX #0
+loop TXA
+       STA $2016,X
+       LDA %1001001
+       STA $1313,X
+       INX
+       BNE loop
+.END
+
+--- Explained Code ---
+
+* = $f600 ; f600 is the memory address that the following program will be stored and also the value of Program Counter (PC)
+
+			LDX #0 ; loads the 0 decimal value to the X register
+
+loop	TXA ; transfers the X register to the accumulator
+
+			STA $2016, X ; stores the accumulator to the $2016 (8214 in decimal) address with the adding content of X register in the address, so the Acc will be stored in the $2016 memory address
+
+			LDA %1001001 ; loads the 1001001 binary (73 in decimal) value to the accumulator
+
+			STA $1313, X ; stores the accumulator to the $1313 (4883 in decimal) address with the adding content of X register in the adress, so the Acc will be stored in the $135C (4956 in decimal) address
+
+			INX ; Increment X by one
+
+			BNE loop ; Branch If Not Equal -> branches if the accumulator value is not equal to 0
+
+.END ; ends the program
+
+--- Compilation Code by PC Adress (Online Compilation Provided by http://www.masswerk.at/6502/assembler.html) ---
+
+* = $F600
+F600        LDX #$00        A2 00
+F602 LOOP   TXA             8A
+F603        STA $2016,X     9D 16 20
+F606        LDA $0049       AD 49 00
+F609        STA $1313,X     9D 13 13
+F60C        INX             E8
+F60D        BNE LOOP        D0 F3
+F60F .END
+
+--- Machine Language Code ---
+1010 0010
+0000 0000
+1000 1010
+1001 1101
+0001 0110
+0010 0000
+1010 1101
+0100 1001
+0000 0000
+1001 1101
+0001 0011
+0001 0011
+1110 1000
+1101 0000
+1111 0011
